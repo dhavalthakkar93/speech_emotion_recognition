@@ -1,3 +1,8 @@
+"""ensemble_emotion_simulation.py: purpose of this script is to predict the emotion from the speech using traind ensemble model based Toronto emotion speech dataset"""
+
+__author__ = "Dhaval Thakkar"
+__purpose__ = "Part of Omnisys Solution internship selection process"
+
 import glob
 import librosa
 import librosa.display
@@ -19,6 +24,7 @@ def extract_feature(file_name):
                                               sr=sample_rate).T, axis=0)
     return mfccs, chroma, mel, contrast, tonnetz
 
+
 target_files = []
 
 
@@ -35,6 +41,7 @@ def parse_audio_files(path):
         target_files.append(fn)
     return np.array(features)
 
+
 ts_features = parse_audio_files('./new_test_sounds/*.wav')
 tr_features = np.array(ts_features, dtype=pd.Series)
 
@@ -44,8 +51,4 @@ model = pickle.load(open(filename, 'rb'))
 prediction = model.predict(ts_features)
 
 for i, val in enumerate(prediction):
-    print("Input File: ", target_files[i], "|",  " Predicted Emotion Is:", classes[int(val)])
-
-
-
-
+    print("Input File: ", target_files[i], "|", " Predicted Emotion Is:", classes[int(val)])
